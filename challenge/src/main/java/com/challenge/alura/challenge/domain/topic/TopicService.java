@@ -10,6 +10,8 @@ import com.challenge.alura.challenge.infra.exception.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.util.Assert.notNull;
+
 @Service
 public class TopicService {
 
@@ -29,11 +31,15 @@ public class TopicService {
         Student student = studentRepository.getReferenceById(data.authorId());
         Course course = courseRepository.getReferenceById(data.courseId());
 
-
-        if(student.getId() == null) {
-
+        if(!studentRepository.existsById(data.authorId())) {
+            throw  new ValidationException("Não é possível cadastrar um tópico para um usuário inexistente!");
         }
 
+
+
+        if(!courseRepository.existsById(data.courseId())) {
+            throw  new ValidationException("Não é possível cadastrar um tópico para um curso inexistente!");
+        }
         var topic = new Topic(null, data.title(), data.message(), student, course);
         topicRepository.save(topic);
 
