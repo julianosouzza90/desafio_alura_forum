@@ -1,6 +1,5 @@
 package com.challenge.alura.challenge.domain.topic;
 
-import com.challenge.alura.challenge.domain.CreateTopicData;
 import com.challenge.alura.challenge.domain.course.Course;
 import com.challenge.alura.challenge.domain.student.CourseRepository;
 import com.challenge.alura.challenge.domain.student.Student;
@@ -38,7 +37,7 @@ public class TopicServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        topic = new Topic(1L,"topic test","topic body", new Student(),new Course());
+        topic = new Topic(1L,"topic test","topic body", null,new Student(),new Course());
 
         createTopicData = new CreateTopicData(topic.getTitle(), topic.getMessage(), 1L, 1L);
 

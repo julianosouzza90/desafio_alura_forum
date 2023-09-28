@@ -1,7 +1,5 @@
 package com.challenge.alura.challenge.domain.topic;
 
-import com.challenge.alura.challenge.domain.CreateTopicData;
-
 import com.challenge.alura.challenge.domain.course.Course;
 import com.challenge.alura.challenge.domain.student.CourseRepository;
 import com.challenge.alura.challenge.domain.student.Student;
@@ -9,6 +7,8 @@ import com.challenge.alura.challenge.domain.student.StudentRepository;
 import com.challenge.alura.challenge.infra.exception.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
 
@@ -40,8 +40,10 @@ public class TopicService {
         if(!courseRepository.existsById(data.courseId())) {
             throw  new ValidationException("Não é possível cadastrar um tópico para um curso inexistente!");
         }
-        var topic = new Topic(null, data.title(), data.message(), student, course);
+        var topic = new Topic(null, data.title(), data.message(), null,student, course);
         topicRepository.save(topic);
 
     }
+
+
 }

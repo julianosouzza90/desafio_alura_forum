@@ -1,4 +1,4 @@
-package com.challenge.alura.challenge.domain;
+package com.challenge.alura.challenge.domain.topic;
 
 import com.challenge.alura.challenge.domain.course.Course;
 import com.challenge.alura.challenge.domain.student.Student;
