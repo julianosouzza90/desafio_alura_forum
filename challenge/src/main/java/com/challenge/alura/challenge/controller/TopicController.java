@@ -1,9 +1,7 @@
 package com.challenge.alura.challenge.controller;
 
-import com.challenge.alura.challenge.domain.topic.CreateTopicData;
-import com.challenge.alura.challenge.domain.topic.TopicRepository;
-import com.challenge.alura.challenge.domain.topic.TopicResponseData;
-import com.challenge.alura.challenge.domain.topic.TopicService;
+import com.challenge.alura.challenge.domain.topic.*;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,5 +60,12 @@ public class TopicController {
         return ResponseEntity.ok().body(topics);
 
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getById(@PathVariable Long id) {
+
+        Topic topic = this.topicRepository.getReferenceById(id);
+        return  ResponseEntity.ok().body(new TopicDetailedData(topic));
     }
 }
