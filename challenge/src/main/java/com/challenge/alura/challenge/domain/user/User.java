@@ -1,30 +1,25 @@
-package com.challenge.alura.challenge.domain.student;
+package com.challenge.alura.challenge.domain.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity()
-@Table(name = "students")
-
-public class Student implements Serializable {
-
+@MappedSuperclass
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private  String name;
+    private String name;
 
     private String login;
 
     private String password;
-
 
 }

@@ -6,7 +6,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
 public class ErrorHandle {
@@ -24,7 +23,7 @@ public class ErrorHandle {
     }
 
 
-    private record DataErrorValidation(String field, String message){
+    private record DataErrorValidation(String field, String message) {
         public DataErrorValidation(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }

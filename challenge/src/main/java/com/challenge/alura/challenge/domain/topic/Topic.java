@@ -1,7 +1,7 @@
 package com.challenge.alura.challenge.domain.topic;
 
 import com.challenge.alura.challenge.domain.course.Course;
-import com.challenge.alura.challenge.domain.student.Student;
+import com.challenge.alura.challenge.domain.user.student.Student;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,12 +12,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode( of = "id")
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "topics")
-public class Topic  implements Serializable {
+public class Topic implements Serializable {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
