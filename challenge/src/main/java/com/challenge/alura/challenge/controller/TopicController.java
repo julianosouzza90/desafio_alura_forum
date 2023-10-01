@@ -1,6 +1,7 @@
 package com.challenge.alura.challenge.controller;
 
 import com.challenge.alura.challenge.domain.topic.*;
+import jakarta.validation.ValidationException;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,11 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.nio.file.AccessDeniedException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,5 +71,17 @@ public class TopicController {
 
         Topic topic = this.topicRepository.getReferenceById(id);
         return  ResponseEntity.ok().body(new TopicDetailedData(topic));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteTopic(@PathVariable Long id) {
+
+        try {
+            this.topicService.delete(id, id);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

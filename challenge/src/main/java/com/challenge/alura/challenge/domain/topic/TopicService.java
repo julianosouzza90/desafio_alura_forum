@@ -5,9 +5,14 @@ import com.challenge.alura.challenge.domain.student.CourseRepository;
 import com.challenge.alura.challenge.domain.student.Student;
 import com.challenge.alura.challenge.domain.student.StudentRepository;
 import com.challenge.alura.challenge.infra.exception.ValidationException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
@@ -46,4 +51,21 @@ public class TopicService {
     }
 
 
+    public void delete(Long id, Long userId) throws AccessDeniedException {
+        var topicExists = this.topicRepository.existsById(id);
+
+        if(!topicExists) {
+            throw  new EntityNotFoundException("O usuário não existe");
+        }
+
+        var topic = this.topicRepository.getReferenceById(id);
+
+        if(!topic.getAuthor().getId().equals(userId)) {
+            throw  new AccessDeniedException("O usuário não tem permissão para deletar esse tópico!");
+        }
+
+        topicRepository.delete(topic);
+
+
+    }
 }
