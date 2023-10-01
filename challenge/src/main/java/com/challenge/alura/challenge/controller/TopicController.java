@@ -1,8 +1,9 @@
 package com.challenge.alura.challenge.controller;
 
 import com.challenge.alura.challenge.domain.topic.*;
-import jakarta.validation.ValidationException;
-import jakarta.websocket.server.PathParam;
+import com.challenge.alura.challenge.infra.exception.ValidationException;
+import com.challenge.alura.challenge.infra.exception.ValidationExceptionForbidden;
+import com.challenge.alura.challenge.infra.exception.ValidationExceptionNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.nio.file.AccessDeniedException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 @RestController
@@ -73,6 +71,22 @@ public class TopicController {
         return  ResponseEntity.ok().body(new TopicDetailedData(topic));
     }
 
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity update(@PathVariable Long id, @RequestBody @Valid UpdateTopicData data) {
+        Long userId = 10L;
+        try {
+            this.topicService.update(id, userId, data);
+        } catch (ValidationExceptionNotFound e) {
+            return ResponseEntity.notFound().build();
+        }catch(ValidationExceptionForbidden e) {
+            return  ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }catch (ValidationException e) {
+
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return  ResponseEntity.ok().build();
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTopic(@PathVariable Long id) {
 

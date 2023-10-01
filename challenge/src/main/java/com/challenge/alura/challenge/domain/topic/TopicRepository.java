@@ -21,4 +21,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     Page<Topic> findByYearCreation(@Param("year") Integer CreatedYear, Pageable pagination);
     @Query("SELECT  t from Topic  t WHERE YEAR(t.createdAt) = :year AND t.course.name = :courseName")
     Page<Topic> findByCourseNameAndCreationYear(@Param("courseName") String courserName,@Param("year") Integer CreatedYear, Pageable pagination);
+
+    boolean existsByMessage(String message);
 }
